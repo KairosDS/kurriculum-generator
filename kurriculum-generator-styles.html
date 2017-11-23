@@ -1,0 +1,174 @@
+<dom-module id="kurriculum-generator-styles">
+  <template>
+    <style>
+      #blindIcon {
+        color: #fff;
+      }
+      #cv {
+        color: var(--text-dark);
+        line-height: 1.5;
+      }
+      #personalDates {
+        list-style: none;
+        display: flex;
+        justify-content: flex-end;
+        flex: 1;
+      }
+      #formation {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      #formation h2 {
+        flex: 1 1 100%;
+      }
+      #title {
+        font-size: 3.8rem;
+      }
+
+      #title span {
+        color: var(--kairos-orange);
+      }
+      .avatar {
+        background: #ccc;
+        border-radius: 50%;
+        margin-top: 14px;
+        min-width: 60px;
+        height: 60px;
+        width: 60px;
+      }
+      .cv-header {
+        display: flex;
+        justify-content: space-between;
+      }
+      .cv-item {
+        position: relative;
+      }
+      .cv-item .edit-icon {
+        display: none;
+      }
+      .cv-item:hover .edit-icon {
+        display: block;
+        cursor: pointer;
+      }
+      .cv-section-header {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        flex: 1 1 100%;
+      }
+      .description {
+        margin: 0 0 calc(4 * var(--grid-gap-size));
+        max-width: 720px;
+      }
+      .edit-icon {
+        position: absolute;
+        right: 8px;
+        top: 0;
+      }
+      .knowlege-description, .language-description {
+        margin-top: 0;
+      }
+      .formation-item {
+        box-sizing: border-box;
+        flex: 1 1 calc(50% - (2 * var(--grid-gap-size)));
+        margin-bottom: calc(2 * var(--grid-gap-size));
+        margin-right: calc(2 * var(--grid-gap-size));
+      }
+      .left-column {
+        padding-right: calc(3 * var(--grid-gap-size));
+      }
+      .page-wrapper {
+        padding: 0;
+      }
+      .period input {
+        display: inline-block;
+        width: 30%;
+      }
+      .period span {
+        margin: 0 var(--grid-gap-size)
+      }
+      .personalDate {
+        border-top: 2px solid var(--kairos-orange);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        font-size: 1.2rem;
+        margin-left: calc(2 * var(--grid-gap-size));
+        padding: calc(2 * var(--grid-gap-size)) 0 0 calc(2 * var(--grid-gap-size));
+        text-align: right;
+        width: 180px;
+      }
+      .personalDate span {
+        margin-top: 8px;
+        opacity: .4;
+      }
+      .progress-bar {
+        height: 5px;
+        margin-bottom: calc(3 * var(--grid-gap-size));
+        width: 100%;
+      }
+      .progress-bar .bg {
+        stroke: var(--text-dark);
+        opacity: .4;
+      }
+      .progress-bar .value {
+        stroke: var(--kairos-orange);
+      }
+      h2 {
+        color: var(--kairos-orange);
+        font-size: 2rem;
+        margin-top: 0;
+      }
+      h3, h4 {
+        margin: 0;
+      }
+      h4 {
+        font-size: 1.5rem;
+        font-weight: 500;
+        opacity: .4;
+      }
+      paper-slider {
+        --paper-slider-active-color: var(--kairos-orange);
+        --paper-slider-knob-color: var(--kairos-orange);
+        --paper-slider-pin-color: var(--kairos-orange);
+        width: 350px;
+      }
+      section:not(#skills) {
+        margin: 0 0 calc(4 * var(--grid-gap-size));
+      }
+      textarea {
+        height: 150px;
+      }
+
+      @media print {
+        :host {
+          height: auto;
+          overflow: visible;
+        }
+        :host * {
+          visibility: hidden;
+        }
+        #cv, #cv * {
+          visibility: visible;
+        }
+        #cv {
+          left: 0;
+          position: absolute;
+          top: 0;
+        }
+        #cv a {
+          display: none;
+        }
+        h1 {
+          line-height: 1.2;
+        }
+        .two-columns {
+          display: flex;
+        }
+        .two-columns .column_4.left-column {
+          min-width: 270px;
+        }
+      }
+    </style>
+  </template>
+</dom-module>

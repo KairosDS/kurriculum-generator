@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>kurriculum-generator demo</title>
+
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../kurriculum-generator.html">
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+        * { -webkit-tap-highlight-color: transparent; }
+        body {
+          background-color: #dee7ea;
+          color: rgba(0,0,0,0.74);
+          font-family: 'Roboto', 'Roboto Condensed', sans-serif;
+          font-size: 1.4rem;
+          margin: 0;
+          min-height: 100vh;
+        }
+        html {
+          font-size: 62.5%;
+        }
+        .vertical-section-container {
+          max-width: 2000px;
+        }
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic kurriculum-generator demo</h3>
+      <demo-snippet>
+        <template>
+          <kurriculum-generator></kurriculum-generator>
+        </template>
+      </demo-snippet>
+    </div>
+    <script>
+    let cv = document.querySelector('kurriculum-generator');
+    cv.user = {
+      "id": "isaac.sanchez@kairosds.com",
+      "name": "Isaac",
+      "surname": "Sanchez",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+      "role": "ADMIN",
+      "joiningDate": "2015-11-16",
+      "emails": [
+        {
+          "email": "isaac.sanchez@kairosds.com",
+          "type": 0
+        },
+        {
+          "email": "",
+          "type": 1
+        }
+      ],
+      "phones": [
+        {
+          "phone": "691438616",
+          "type": 0
+        },
+        {
+          "phone": "",
+          "type": 1
+        }
+      ],
+      "jobTitle": "Front-end Developer",
+      "areaId": "Development",
+      "avatar": "https://lh3.googleusercontent.com/-1TsWn1bxclU/AAAAAAAAAAI/AAAAAAAAAAA/352zWM8DM5A/s64-c/108322099218123629065.jpg",
+      "documentId": " 47034530j",
+      "birthDate": "",
+      "birthplace": "",
+      "socialLinks": {
+        "twitter": "isaacsc83",
+        "github": "isaacsc",
+        "linkedin": "isaacsc",
+        "web": ""
+      },
+      "addresses": [
+        {
+          "address": "",
+          "type": 0
+        },
+        {
+          "address": "",
+          "type": 1
+        }
+      ],
+      "posts": [],
+      "area": {
+        "id": "Development",
+        "name": "Development",
+        "head": "jorge.casar@kairosds.com"
+      },
+      "experience": [],
+      "studies": [],
+      "skills": [],
+      "aptitudes": '',
+      "languages": []
+    }
+    </script>
+  </body>
+</html>

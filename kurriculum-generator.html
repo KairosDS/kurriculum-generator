@@ -1,0 +1,241 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-slider/paper-slider.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="../komponents-utils/components/kr-modal.html">
+
+<link rel="import" href="../komponents-utils/styles/kr-classes.html">
+<link rel="import" href="../komponents-utils/styles/kr-page.html">
+<link rel="import" href="../komponents-utils/styles/kr-theme.html">
+
+<link rel="import" href="kurriculum-generator-styles.html">
+
+<dom-module id="kurriculum-generator">
+  <template>
+    <style include="kr-typography kr-page kr-modal-styles kr-lists kr-tags kr-buttons kr-form kurriculum-generator-styles"></style>
+
+    <div class="wrapper page-limit">
+      <header class="page-header">
+        <h1 class="page-title">Mi curriculum</h1>
+        <div>
+          <a on-click="getBlindCV"><paper-icon-button id="blindIcon" icon="visibility"></paper-icon-button></a>
+          <button class="btn-orange-soft btn-big" on-click="print">IMPRIMIR</button>
+        </div>
+      </header>
+      <main id="cv" class="main-card">
+        <header class="page-bg page-wrapper cv-header" hidden$="[[blind]]">
+          <dom-if if="[[!loading]]">
+            <template>
+              <img class="avatar" src="[[user.avatar]]">
+              <ul id="personalDates">
+                <li class="personalDate phone"> [[user.phones.0.phone]] <span>Teléfono</span></li>
+                <li class="personalDate mail"> [[user.emails.0.email]] <span>Email</span></li>
+                <li class="personalDate linkedin"> linkedin.com/in/[[user.socialLinks.linkedin]] <span>Linkedin</span></li>
+              </ul>
+            </template>
+          </dom-if>
+        </header>
+
+        <h1 id="title">
+          Hola. <br>
+          Soy <span>{{_computeName}}</span>, <br>
+          [[user.jobTitle]].
+        </h1>
+        <p class="description">[[user.description]]</p>
+        <section class="two-columns">
+          <div class="column column_4 left-column">
+            <section>
+              <header class="cv-section-header">
+                <h2>Experiencia</h2>
+                <dom-if if="[[isAdmin]]">
+                  <template>
+                    <a data-field="experience" on-click="_linkAddButton"><paper-icon-button icon="add-circle-outline" class="toolbar-icon-button"></paper-icon-button></a>
+                  </template>
+                </dom-if>
+              </header>
+              <dom-repeat items="[[user.experience]]" as="experience">
+                <template>
+                  <article class="cv-item">
+                    <h4>
+                      [[_getLocaleDate(experience.from)]]
+                      -
+                      <dom-if if="[[experience.to]]">
+                        <template>
+                          [[_getLocaleDate(experience.to)]]
+                        </template>
+                      </dom-if>
+                      <dom-if if="[[!experience.to]]">
+                        <template>
+                          Actualidad
+                        </template>
+                      </dom-if>
+                    </h4>
+                    <h3> [[experience.title]] </h3>
+                    <p> [[experience.description]] </p>
+                    <dom-if if="[[isAdmin]]">
+                      <template>
+                        <a class="edit-icon" data-field="experience" data-index$="[[index]]" on-click="_linkEditButton"><iron-icon hidden-to-others="" icon="create"></iron-icon></a>
+                      </template>
+                  </dom-if>
+                  </article>
+                </template>
+              </dom-repeat>
+            </section>
+            <section id="formation">
+              <header class="cv-section-header">
+                <h2>Formación</h2>
+                <dom-if if="[[isAdmin]]">
+                  <template>
+                    <a on-click="_linkAddButton" data-field="studies"><paper-icon-button icon="add-circle-outline" class="toolbar-icon-button"></paper-icon-button></a>
+                  </template>
+                </dom-if>
+              </header>
+              <dom-repeat items="[[user.studies]]" as="studie">
+                <template>
+                  <article class="formation-item cv-item">
+                    <h4>
+                      [[_getLocaleDate(studie.from)]]
+                      -
+                      <dom-if if="[[studie.to]]">
+                        <template>
+                          [[_getLocaleDate(studie.to)]]
+                        </template>
+                      </dom-if>
+                      <dom-if if="[[!studie.to]]">
+                        <template>
+                          Actualidad
+                        </template>
+                      </dom-if>
+                    </h4>
+                    <h3>[[studie.title]]</h3>
+                    <a data-field="studies" data-index$="[[index]]" on-click="_linkEditButton" class="edit-icon"><iron-icon hidden-to-others="" icon="create"></iron-icon></a>
+                  </article>
+                </template>
+              </dom-repeat>
+            </section>
+          </div>
+          <aside class="column column_2">
+            <section id="skills">
+              <header class="cv-section-header">
+                <h2>Conocimientos</h2>
+                <dom-if if="[[isAdmin]]">
+                  <template>
+                    <a data-field="skills" on-click="_linkAddButton"><paper-icon-button icon="add-circle-outline" class="toolbar-icon-button"></paper-icon-button></a>
+                  </template>
+                </dom-if>
+              </header>
+              <dom-repeat items="[[user.skills]]" as="skill">
+                <template>
+                  <article class="cv-item">
+                    <h3>[[skill.title]]</h3>
+                    <p class="knowlege-description">[[skill.description]] </p>
+                    <svg class="progress-bar"  xmlns="http://www.w3.org/2000/svg">
+                      <line class="bg" x1="0" y1="4" x2="100%" y2="4"
+                          stroke="#EDEDED" stroke-width="4" />
+                      <line  class="value" x1="0" y1="4" x2$="[[skill.percent]]%" y2="4"
+                        stroke="orange" stroke-width="4" />
+                    </svg>
+                    <a data-field="skills" data-index$="[[index]]" on-click="_linkEditButton" class="edit-icon"><iron-icon hidden-to-others="" icon="create"></iron-icon></a>
+                  </article>
+                </template>
+              </dom-repeat>
+            </section>
+            <section>
+              <header class="cv-section-header">
+                <h2>Aptitudes</h2>
+                  <dom-if if="[[isAdmin]]">
+                      <template>
+                  <a data-field="aptitudes" on-click="_linkEditButton"><iron-icon hidden-to-others="" icon="create"></iron-icon></a>
+                  </template>
+                </dom-if>
+              </header>
+              <article class="cv-item">
+                [[user.aptitudes.description]]
+              </article>
+            </section>
+            <section>
+              <header class="cv-section-header">
+                <h2>Idiomas</h2>
+                <dom-if if="[[isAdmin]]">
+                  <template>
+                    <a data-field="languages" on-click="_linkAddButton"><paper-icon-button icon="add-circle-outline" class="toolbar-icon-button"></paper-icon-button></a>
+                  </template>
+                </dom-if>
+              </header>
+              <dom-repeat items="[[user.languages]]" as="language">
+                <template>
+                  <article class="cv-item">
+                    <h3>[[language.title]]</h3>
+                    <p class="language-description">[[language.description]] </p>
+                    <dom-if if="[[isAdmin]]">
+                      <template>
+                        <a data-field="languages" data-index$="[[index]]" on-click="_linkEditButton" class="edit-icon"><iron-icon hidden-to-others="" icon="app:edit"></iron-icon></a>
+                      </template>
+                    </dom-if>
+                  </article>
+                </template>
+              </dom-repeat>
+            </section>
+          </aside>
+        </section>
+      </main>
+    </div>
+    <kr-modal
+      id="modal"
+      heading="Editar"
+      footer-button-text="Guardar">
+      <div slot="body">
+        <dom-if if="[[_computeFieldPeriod(section)]]">
+          <template>
+            <div class="form-item period">
+              <label class="form-label">
+                Periodo<br>
+                <input class="form-input" type="date" id="from" value="{{cvItem.from::input}}">
+                <span> - </span>
+                <input class="form-input" type="date" id="to" value="{{cvItem.to::input}}">
+              </label>
+            </div>
+          </template>
+        </dom-if>
+        <dom-if if="[[_computeFieldTitle(section)]]">
+          <template>
+            <div class="form-item">
+              <label class="form-label">
+                Título<br>
+                <input class="form-input" type="text" value="{{cvItem.title::input}}">
+              </label>
+            </div>
+          </template>
+        </dom-if>
+        <dom-if if="[[_computeFieldDescription(section)]]">
+          <template>
+            <div class="form-item">
+              <label class="form-label">
+                Descripción<br>
+                <textarea class="form-textarea" type="text" value="{{cvItem.description::input}}"></textarea>
+              </label>
+            </div>
+          </template>
+        </dom-if>
+        <dom-if if="[[_computeFieldPercent(section)]]">
+          <template>
+            <div class="form-item">
+              <label class="form-label">
+                Porcentage <br>
+                <paper-slider max="100" min="10" pin value="{{cvItem.percent}}"></paper-slider>
+              </label>
+            </div>
+          </template>
+        </dom-if>
+      </div>
+      <footer slot="footer">
+        <button class="btn-gray" on-click="deleteItem">Eliminar</button>
+        <button class="btn-orange" on-click="editItem">Guardar</button>
+      </footer>
+    </kr-modal>
+
+  </template>
+  <script src="kurriculum-generator.js"></script>
+</dom-module>
